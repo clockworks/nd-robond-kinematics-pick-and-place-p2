@@ -36,7 +36,7 @@ def handle_calculate_IK(req):
 		# Define Modified DH Transformation matrix
 		#
 		#
-		# Create individual transformation matrices
+		
 		#
 		#
 		# Extract rotation matrices from the transformation matrices
@@ -72,6 +72,7 @@ def handle_calculate_IK(req):
 				   )
 			return TF
 
+		# Create individual transformation matrices
 		T0_1 =  TF_Matrix(alpha0, a0, d1, q1).subs(DH_Table)
 		T1_2 =  TF_Matrix(alpha1, a1, d2, q2).subs(DH_Table)
 		T2_3 =  TF_Matrix(alpha2, a2, d3, q3).subs(DH_Table)
@@ -80,6 +81,8 @@ def handle_calculate_IK(req):
 		T5_6 =  TF_Matrix(alpha5, a5, d6, q6).subs(DH_Table)
 		T6_EE = TF_Matrix(alpha6, a6, d7, q7).subs(DH_Table)
 
+
+		# Transform matrix from base to gripper
 		T0_EE = T0_1 * T1_2 * T2_3 * T3_4 * T4_5 * T5_6 * T6_EE
 
 		# Initialize service response
@@ -109,8 +112,11 @@ def handle_calculate_IK(req):
 			#
 			###
 
+			# Create symbols
 			r, p, y = symbols('r p y')
 
+				
+			# Create rotation matrix for yaw, pitch and yaw
 			ROT_x = Matrix([[1,      0,       0],
 							[0, cos(r), -sin(r)],
 							[0, sin(r), cos(r)]])   #ROLL
@@ -125,7 +131,8 @@ def handle_calculate_IK(req):
 
 			ROT_EE = ROT_z * ROT_y * ROT_x
 
-			Rot_Error = ROT_z.subs(y, radians(100)) * ROT_y.subs(p, radians(-90))
+			# Compensate for rotation discrepancy between DH parameters and Gazebo
+			Rot_Error = ROT_z.subs(y, radians(180)) * ROT_y.subs(p, radians(-90))
 
 			ROT_EE = ROT_EE * Rot_Error
 

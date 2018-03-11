@@ -103,7 +103,7 @@ TrajectorySampler::TrajectorySampler(ros::NodeHandle nh)
   ROS_INFO("Added object list to the world");
 
   // Allow MoveGroup to add the collision objects in the world
-  ros::Duration(1.0).sleep();
+  ros::Duration(2.0).sleep();
 
   while (ros::ok())
   {
@@ -499,7 +499,7 @@ TrajectorySampler::TrajectorySampler(ros::NodeHandle nh)
 
     // Spawn another target
     system("rosrun kuka_arm target_spawn.py");
-    ros::Duration(1.0).sleep();
+    ros::Duration(2.0).sleep();
 
     float spawn_x, spawn_y, spawn_z;
     std::stringstream td_sstream;
@@ -538,7 +538,7 @@ bool TrajectorySampler::OperateGripper(const bool &close_gripper)
   }
 
   eef_group.setJointValueTarget(gripper_joint_positions);
-  ros::Duration(1.5).sleep();
+  ros::Duration(2.0).sleep();
 
   bool success = eef_group.move();
   return success;

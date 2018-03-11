@@ -132,7 +132,7 @@ def test_code(test_case):
 
     ROT_EE = ROT_z * ROT_y * ROT_x
 
-    Rot_Error = ROT_z.subs(y, radians(100)) * ROT_y.subs(p, radians(-90))
+    Rot_Error = ROT_z.subs(y, radians(180)) * ROT_y.subs(p, radians(-90))
 
     ROT_EE = ROT_EE * Rot_Error
 
@@ -184,7 +184,7 @@ def test_code(test_case):
 
     ## For error analysis please set the following variables of your WC location and EE location in the format of [x,y,z]
     your_wc = [WC[0],WC[1],WC[2]] # <--- Load your calculated WC values in this array
-    your_ee = [EE[0],EE[1],EE[2]] # <--- Load your calculated end effector value from your forward kinematics
+    your_ee = [FK[0,3],FK[1,3],FK[2,3]] # <--- Load your calculated end effector value from your forward kinematics
     ########################################################################################
 
     ## Error analysis
